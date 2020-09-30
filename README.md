@@ -10,13 +10,13 @@ The code will take any .stl model and write out an Abaqus inp file containing a 
 EXECUTION
 I have not currently set this up to run from the command line, rather use an IDE and modify the "wrapper.py" script to read a given .stl object and write where you please.I may change this once the code is robust, however at the present time it is WIP. Inaccuracies persist in slicing the stl into a stack of pixels. I have added a function named point_adder.py to add a row of elements which can be used to patch and repair any errors in the generated .inp file, for now.
 
-The script calls on a (freeform) FORTRAN subroutine, "fortran_subroutine.f90" to index finite elements from nodal coordinates. This must be compiled for python beforehand using the f2py module which is built into the numpy library. The GNU FORTRAN compiler (gcc.gnu.org/fotran/) is available for free across all platforms and was tested and working for this project. Other compilers should also work. The compiler command is issued from the ANACONDA command line as follows: 
+The script calls on a (freeform) FORTRAN subroutine, "fortran_subroutine.f90" to index finite elements from nodal coordinates. This must be compiled for python beforehand using the f2py module which is built into the numpy library. The GNU FORTRAN compiler (gcc.gnu.org/fortran/) is available for free across all platforms and was tested and working for this project. You need to ensure you specifically install the 64bit MinGW compiler series if you are on x86 Windows architecture. Other compilers should also work. The compiler command is issued from the ANACONDA command line as follows: 
 
  python -m numpy.f2py --compiler=mingw32 -c fortran_source.f90 -m output_name
 
 CREDIT
 
-This work has built on existing python code 'stltovoxel' by Christian Pedersen (https://github.com/cpederkoff/stl-to-voxel), which in turn uses 'stl_reader' by Sukhbinder Singh(http://sukhbinder.wordpress.com/2013/11/28/binary-stl-file-reader-in-python-powered-by-numpy/)  . 
+This work has built on existing python code 'stltovoxel' by Christian Pedersen (https://github.com/cpederkoff/stl-to-voxel), which in turn uses 'stl_reader' by Sukhbinder Singh (http://sukhbinder.wordpress.com/2013/11/28/binary-stl-file-reader-in-python-powered-by-numpy/) to read the STL into memory. 
 
 
 Dr Richard J Williams
