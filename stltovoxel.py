@@ -73,9 +73,9 @@ def file_choices(choices,fname):
             parser.error('%s doesn\'t end with one of %s'%(fname,choices))
     return fname
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Convert STL files to voxels')
-    parser.add_argument('input', nargs='?', type=lambda s:file_choices(('.stl'),s))
-    parser.add_argument('output', nargs='?', type=lambda s:file_choices(('.png', '.xyz', '.svx'),s))
-    args = parser.parse_args()
-    doExport(args.input, args.output, 10)
+# if __name__ == '__main__':
+#     parser = argparse.ArgumentParser(description='Convert STL files to voxels')
+#     parser.add_argument('input', nargs='?', type=lambda s:file_choices(('.stl'),s))
+#     parser.add_argument('output', nargs='?', type=lambda s:file_choices(('.png', '.xyz', '.svx'),s))
+#     args = parser.parse_args()
+#     doExport(args.input, args.output, 10)
