@@ -16,6 +16,7 @@ import numpy as np
 import stltovoxel
 import indexing_routines
 from shutil import copyfile
+from util import rescale_mesh
 from tkinter import *
 from tkinter.filedialog import askopenfilename
 
@@ -28,17 +29,17 @@ root.destroy()
 
 stl_file = root.filename
 
-element_size = float(input('Specify element size'))
+element_size = float(input('Specify element size '))
 
 #note the programe slices through the z axis in the CAD file, so orient z up in the CAD.
 #Scale is set by the largest XY dimension. The largest XY dimension divided by the number of divisions
 #gives this value. Element size must be in the same unit as the CAD file. 
 
 #grab the stl_vertices and calculate size
-num_divisions, mesh = stltovoxel.getResolution(stl_file, element_size)
+num_divisions_xy, mesh = stltovoxel.getResolution(stl_file, element_size)
 
 #call stltovoxel and calculate voxel centroids
-voxel_cent_x, voxel_cent_y, voxel_cent_z, scale = stltovoxel.getVoxels(mesh, num_divisions)
+voxel_cent_x, voxel_cent_y, voxel_cent_z, scale = stltovoxel.getVoxels(mesh, num_divisions_xy)
 centroids_all = np.transpose(np.vstack((voxel_cent_x, voxel_cent_y, voxel_cent_z)))
 #everything is unscaled working with arbitrary element size of 1
 num_voxels = len(centroids_all)
@@ -48,7 +49,7 @@ print('Getting nodal coordinates ...')
 all_nodes = indexing_routines.write_nodes(centroids_all, num_voxels)
 all_nodes = [tuple(row) for row in all_nodes]
 nodes = np.unique(all_nodes, axis=0)    #remove duplicate nodes
-nodes = nodes - element_size
+nodes = nodes - 0.5
 node_num = np.arange(1, len(nodes[:,0]) +1, 1)
 num_nodes = len(nodes)
 
@@ -63,7 +64,7 @@ els_all = np.reshape(els_all[mask], (((int(len(els_all[mask])/8)), 8))) # this l
 ## form input file
 print('Writing input file ...')
 
-nodes = nodes/scale     #now we drop back into scale
+nodes = rescale_mesh(nodes, element_size)     #now we drop back into scale
 el_num = np.arange(1, len(els_all)+1, 1)
 elements= np.transpose(np.vstack((el_num, np.transpose(els_all))))
 nodes = np.column_stack((node_num, nodes))

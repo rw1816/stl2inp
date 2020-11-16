@@ -13,7 +13,7 @@ def getVoxels(mesh, resolution):
     
     print('Getting voxels...')
     print('Part has {0} layers in z axis '.format(bounding_box[2]))
-    
+
     for height in range(bounding_box[2]):
         
         
@@ -57,6 +57,3 @@ def getResolution(stl_file, element_size):
         print('** WARNING ** z is not the largest dimension, results may vary')
         
     return num_divisions, mesh
-
-                                  
-

@@ -41,3 +41,15 @@ def padVoxelArray(voxels):
                 vol[a+1,b+1,c+1] = voxels[a,b,c]
     return vol, (new_shape[1],new_shape[2],new_shape[0])
 
+def rescale_mesh(nodes, element_size):
+    
+    nodes=nodes*element_size
+    apparent_elsize = sum(nodes[1,1:4]-nodes[0,1:4])
+    
+    if apparent_elsize != element_size:
+    
+        nodes=np.divide(nodes, apparent_elsize)
+        nodes=np.multiply(nodes, element_size)
+        print('*warning* nodes re-scaled')
+        
+    return nodes
