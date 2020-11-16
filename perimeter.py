@@ -1,7 +1,3 @@
-import math
-from collections import defaultdict
-import numpy as np
-
 def linesToVoxels(lineList, pixels):
     for x in range(len(pixels)):
         isBlack = False
